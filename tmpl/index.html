@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>PICX</title>
+  <meta http-equiv="content-type" content="text/html; charset=utf-8">
+  <link rel="stylesheet" type="text/css" href="../static/picxGeneralStyle.css">
+  <script language="javascript" type="text/javascript" src="../static/UserAdministration.js"></script>
+  <script language="javascript" type="text/javascript" src="../static/ImagesAdministration.js"></script>
+  <script language="javascript" type="text/javascript" src="../static/GroupsAdministration.js"></script>
+  <script language="javascript" type="text/javascript" src="../static/Generators.js"></script>
+  <script language="javascript" type="text/javascript" src="../static/PicxUtils.js"></script>
+</head>
+
+<body>
+  <!---------------------------------------Header--------------------------------------->
+  <div id="header">
+    <h1>PICX</h1>
+    <p id="message" hidden></p>
+    <!---------------------------Login-/Registrierungsform--------------------------->
+    <form id="authForm" class="topRight">
+      <div>
+        <label for="name" class="loginLabel">Name:</label>
+        <label for="password" class="loginLabel">Kennwort:</label></br>
+        <input type="text" id="name" name="name" class="loginInput">
+        <input type="password" id="password" name="password" class="loginInput">
+      </div>
+      <div>
+        <button class="noBorder loginLabel formButton" onclick="authentificate('login')" type="button">
+          Anmelden
+        </button>
+        <button class="noBorder loginLabel formButton" onclick="authentificate('register')" type="button">
+          Registrieren
+        </button>
+      </div>
+    </form>
+    <!-----------------User information and buttons up right----------------->
+    <div id="userInfo" class="topRight" hidden>
+      <p class="noBorder" id="username">Username</p>
+      <button onclick="logout()" class="noBorder userButton">Logout</button>
+      <button onclick="deleteAccount()" class="noBorder userButton">löschen</button>
+    </div>
+  </div>
+
+  <!------------------------------Wilkkommenstext-------------------------------------->
+  <div id="indexWrapper">
+    <p id="indexHeading">welcome to <b>PICX</b></p>
+  </div>
+
+  <!--------------------------------user bereich----------------------------------------->
+  <div id="contentWrapper" class="dontShowContentWrapper">
+    
+    <!--#########################################linke Seite#########################################-->
+    <div id="leftSide" class="divider">
+
+      <!--Bilder hochladen-->
+      <div>
+        <form enctype="multipart/form-data" id="uploadForm">
+          <label>Bilder hochladen:</label>
+          <input type="file" name="inputFiles" id="inputFiles" accept="image/*" multiple />
+          <button id="uploadButton" onclick="upLoadImages()" type="button">upload</button>
+        </form>
+      </div>
+
+      <!--Thumbnail Vorschauen-->
+      <div id="thumbnailViewer" class="divider">
+        <label>Hochgeladene Bilder:</label>
+
+        <span id="sizeText" hidden>Size</span>
+
+        <!--muss dynamisch erzeugt werden mit in der db vorhandenen werten-->
+        <select name="selectShown" id="selectShown" size="1" onchange="getImages()">
+          <option value="all">alle Bilder</option>
+        </select>
+        <hr>
+        <!--Thumbnails werden dynamisch angezeigt-->
+        <div id="thumbnailContainer">
+          <p>Es sind keine Bilder vorhanden!</p>
+        </div>
+      </div>
+
+      <button id="removeButton" onclick="removeImages() ">Bild löschen</button>
+    </div>
+
+    <!--#########################################rechte Seite#########################################-->
+    <div id="rightSide" class="divider">
+
+      <!---------------------------------Navigationsbuttons--------------------------------->
+      <div id="navBar" class="section">
+        <button class="navButtonClicked" type="button" id="butPool" onclick="toogleSection(this)">Pools</button>
+        <button class="navButton" type="button" id="butCollection" onclick="toogleSection(this)">Sammlungen</button>
+        <button class="navButton" type="button" id="butGenerator" onclick="toogleSection(this)">Generator</button>
+      </div>
+      <!---------------------------------Einstellungen der Pools--------------------------------->
+      <div class="section" id="poolSection">
+
+        <!--Pool erstellen-->
+        <form class="form divider" id="createPoolForm">
+          <h3>Pool erstellen:</h3>
+          <p><i>Bilder links auswählen</i></p>
+          <div>
+            <label for="poolName">Name:</label>
+            <input type="text" name="name" id="poolName" class="inputElement">
+          </div>
+          <div>
+            <label for="size">Kachelgröße:</label>
+            <input type="number" name="size" id="size" class="inputElement">
+            <p>px</p>
+          </div>
+          <button class="btn" onclick="createNewGroup('pool','')" type="button">erstellen</button>
+        </form>
+
+        <!--Pool bilder hinzufügen-->
+        <form class="form divider">
+          <h3>Bilder einem Pool hinzufügen:</h3>
+          <p><i>Bilder links auswählen</i></p>
+          <div>
+            <label for="selectPool">Pool:</label>
+            <!--Pools werden dynamisch hinzugefügt-->
+            <select name="selectPool" id="selectPool" class="inputElement">
+            </select>
+          </div>
+          <button class="btn" onclick="addToGroup('selectPool','')" type="button">hinzufügen</button>
+          <button class="btn" onclick="removeGroup('Pools')" type="button">Pool Löschen</button>
+        </form>
+
+        <!--Pool generieren-->
+        <form class="form divider" id="generatePool">
+          <h3>Pool generieren:</h3>
+          <p></p>
+          <!--Name input-->
+          <div>
+            <label for="genPoolName">Name:</label>
+            <input name="genPoolName" id="genPoolName" class="inputElement">
+          </div>
+          <!--Größe input-->
+          <div>
+            <label for="tileSize">Kachelgröße:</label>
+            <input type="number" name="tileSize" min="2" max="50" id="genPoolSize" class="inputElement">
+          </div>
+          <!--Anzahl input-->
+          <div>
+            <label for="tileCount">Kachelanzahl:</label>
+            <input type="number" name="tileCount" min="1" max="5000" id="genPoolCount" class="inputElement">
+          </div>
+          <!--Rechteck checkbox input-->
+          <div>
+            <label for="rect">Rechtecke:</label>
+            <input type="checkbox" name="rect" id="rectCheckbox" onchange="controlNinput(this)">
+          </div>
+          <!--Rechteckgröße input-->
+          <div>
+            <label for="rectSize">Rechteckgröße:</label>
+            <input type="number" name="rectSize" min="1" id="rectSize" class="inputElement" disabled>
+          </div>
+          <button type="button" class="btn" onclick="generateImages()">Generate</button>
+        </form>
+      </div>
+
+      <!---------------------------------Einstellungen der Sammlungen---------------------------------->
+      <div class="sectionHide" id="collectionSection">
+        <!--Sammlung erstellen-->
+        <form class="form divider" id="createCollectionForm">
+          <h3>Sammlung erstellen:</h3>
+          <p><i>Bilder links auswählen</i></p>
+          <div>
+            <label for="collectionName">Name:</label>
+            <input type="text" name="name" id="collectionName" class="inputElement">
+          </div>
+          <button class="btn" onclick="createNewGroup('collection')" type="button">erstellen</button>
+        </form>
+
+        <!--Sammlung bilder hinzufügen-->
+        <form class="form divider">
+          <h3>Bilder einer Sammlung hinzufügen:</h3>
+          <p><i>Bilder links auswählen</i></p>
+          <div>
+            <label for="selectCollection">Sammlung:</label>
+            <!--muss dynamisch erzeugt werden mit in der db vorhandenen werten-->
+            <select name="selectCollection" id="selectCollection" class="inputElement">
+              <option value="value">Collection1</option>
+              <option value="value">Collection2</option>
+            </select>
+          </div>
+          <button class="btn" onclick="addToGroup('selectCollection','')" type="button">hinzufügen</button>
+          <button class="btn" onclick="removeGroup('Collection')" type="button">Sammlung Löschen</button>
+        </form>
+
+        <!--Skalierung von Bildern-->
+        <form class="form divider">
+          <h3>Bild skalieren:</h3>
+          <p><i>Bild links auswählen</i></p>
+          <div>
+            <label for="width">Breite:</label>
+            <input type="number" name="width" id="width" class="inputElement" oninput="calculateResizeValue(this)">
+            <p>px </p>
+          </div>
+          <div>
+            <label for="width">Höhe:</label>
+            <input type="number" name="height" id="height" class="inputElement" oninput="calculateResizeValue(this)">
+            <p>px</p>
+          </div>
+          <button onclick="resizeImage()" type="button" class="btn">Skalieren</button>
+
+        </form>
+      </div>
+
+      <hr>
+
+      <!---------------------------------Mosaik generieren--------------------------------->
+      <div class="sectionHide" id="generatorSection">
+        <form class="form divider" id="mosiacGenerator">
+          <h3>Mosaik generieren:</h3>
+          <p>Pool und Methode wählen</p>
+          <div>
+            <label for="genMosaicPoolName">Pool:</label>
+            <select name="poolName" id="genMosaicPoolName" class="inputElement">
+            </select>
+          </div>
+          <div>
+            <label for="bestfit">Bestfit:</label>
+            <input type="checkbox" name="bestFit" id="bestFitCheckbox" onchange="controlNinput(this)">
+          </div>
+          <div>
+            <label for="reuseImages">Mehrfach:</label>
+            <input type="checkbox" name="reuseImages" id="reuseImagesCheckbox">
+          </div>
+          <div>
+            <label for="countBestFit">N:</label>
+            <input type="number" name="countBestFit" id="countBestFit" class="inputElement">
+          </div>
+          <button type="button" onclick="generateMosaic()">Generate</button>
+        </form>
+      </div>
+
+      <!---------------------Informationen über die Bilder und Pools--------------------->
+      <div class="section">
+        <div class="divider information" id="imageInformation">
+          <h3>Bildinformationen:</h3>
+        </div>
+        <div class="divider information" id="poolInformation">
+          <h3>Poolinformationen:</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!---------------------Bild-Container--------------------->
+  <div id="imageContainer">
+    <img id="showImage" src="/static/passbild_flowers_20on.jpeg">
+  </div>
+
+</body>
+
+</html>

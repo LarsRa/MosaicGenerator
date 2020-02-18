@@ -1,0 +1,261 @@
+/*----------------------------------header style----------------------------------*/
+#header{
+    background-color: rgb(255, 255, 255);
+    height: 110px;
+    display: flex;
+}
+
+/*Logoüberschrift*/
+#header h1{
+    float:left;
+    color: #97DBED;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+    font-size: 72pt;
+    margin: auto 0px;
+    padding: 0px 5px;
+    border-right: 3px solid #DFDFD4;
+}
+/*----------form register/login im header----------*/
+/*form-wrapper*/
+.topRight {
+    float: right;
+    margin: 5px 20px 0px auto;
+}
+
+/*buttons*/
+.noBorder{
+    border: none;
+    border-radius: 5px;
+}
+
+/*Rückmeldung zu Login/Registrierung*/
+#message{
+    background-color:#97DBED;
+    color: orange;
+    font-weight: bold;
+    padding: 10px;
+    width: 500px;
+    text-align: center;
+    border: solid;
+    border-radius: 5px;
+    height: 20px;
+    margin: auto 0px auto auto ;
+}
+
+/*Input-Elemente*/
+.loginInput{
+    width: 145px;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+/*labels für Input-Elemente*/
+.loginLabel{
+    width: 150px;
+    display: inline-block;
+    margin-left: 5px;
+}
+
+/*buttons*/
+.formButton{
+    color: white;
+    background-color: #7AB55C;
+    margin-top: 20px; 
+    height: 30px;
+}
+
+/*----------------------------------body style----------------------------------*/
+body{
+    background-color: #DFDFD4;
+}
+
+/*----------------------------------body für nicht angemeldete Nutzer----------------------------------*/
+/*Willkommenstext style*/
+#indexHeading{
+    font-size: 150px;
+
+}
+#indexHeading b{
+    color: #97DBED;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+#indexWrapper{
+    text-align: center;
+}
+/*----------------------------------header für angemeldete Nutzer----------------------------------*/
+.userButton{
+    width: 150px;
+    display: block;
+    background-color: #97DBED;
+    color: white;
+    margin-top: 5px;
+    height: 30px;
+}
+
+#username{
+    background-color: #DFDFD4;
+    text-align: center;
+    height: 25px;
+    padding-top: 5px;
+    margin: 0;
+}
+
+/*------------------------------------------Nutzerfunktionen------------------------------------------*/
+#contentWrapper{     
+    justify-content: space-between;
+    width: 100%;
+}
+
+/*Klasse um den Userbereich einzublenden*/
+.showContentWrapper{
+    display: flex;
+}
+
+/*Klasse um den Userbereich für nicht angemeldete auszublenden*/
+.dontShowContentWrapper{
+    display: none;
+}
+
+/*Klasse um Elementen eine Abgrenzung hinzuzufügen*/
+.divider{
+    border: 1px solid grey;
+    border-radius: 10px;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+/*linke Seite des Nutzerbereichs mit Bilderauswahl/-upload */
+#leftSide{
+    width: 48.5%;
+    height: 800px;
+}
+
+#uploadButton{
+    background-color: #7AB55C;
+    color: white;
+    border-radius: 5px;
+}
+
+#removeButton{
+    background-color: #7AB55C;
+    color: white;
+    border-radius: 5px;
+    margin-left: 40%;
+    margin-top: 5px;
+}
+
+/*selector für angezeigte Bilder*/
+#selectShown{
+    float: right;
+}
+
+#thumbnailViewer{
+    height: 90%;
+}
+
+#thumbnailContainer{
+    background-color: #97DBED;
+    height: 95%;
+    overflow-y: scroll;
+}
+
+.thumbnail{
+    height: 80px;
+    width: 80px;
+    margin: 5px;
+}
+
+.selectedThumb{
+    border: 1px solid red;
+}
+
+/*rechte Seite des Nutzerbereichs mit Formen zur Konfiguration*/
+#rightSide{
+    width: 48.5%;
+    height: 800px;
+}
+
+.section{
+    display: flex;
+}
+.sectionHide{
+    display: none;
+}
+
+.information{
+    display: inline-block;
+}
+
+#navBar{
+    background-color: #97DBED;
+    padding:10px;
+}
+
+.navButton{
+    margin-left:20px;
+    width: 100px;
+    background-color: #7AB55C;
+    color: white;
+    border-radius: 5px;
+    height: 25px;  
+}
+
+.navButtonClicked{
+    margin-left:20px;
+    width: 100px;
+    background-color: rgb(85, 110, 73);
+    color: white;
+    border-radius: 5px;
+    height: 25px;  
+}
+
+.form{
+    width:33%;
+    margin-right: 10px;
+}
+
+h3 {
+    margin: 0%;
+}
+
+.form div{
+    display: block;
+}
+
+.form div label{
+    width:100px;
+    display: inline-block;
+    text-align: right;
+}
+
+.inputElement{
+    width:100px;
+    margin-bottom: 3px;
+}
+
+form div p{
+    display: inline;
+}
+
+form button{
+    background-color: #7AB55C;
+    color: white;
+    border-radius: 5px;
+    height: 25px;  
+}
+
+.btn{
+    margin-left: 120px;
+    margin-top: 20px;
+}
+
+.information{
+    width: 48%;
+    background-color: white;
+}
+
+#imageContainer{
+    text-align: center;
+}
+
